@@ -98,6 +98,38 @@ def now_local() -> datetime:
 
 st.set_page_config(page_title="S&OP Prognose", page_icon="📈", layout="wide")
 
+# ============================================================
+# Passwort-Schutz – muss vor allem anderen laufen
+# ============================================================
+PASSWORD = "wieselhuberNLP2026!"
+
+if not st.session_state.get("authenticated", False):
+    st.markdown(
+        f"""
+        <style>
+        .login-box {{
+            max-width: 400px; margin: 100px auto; padding: 40px;
+            border: 2px solid #000055; border-radius: 8px;
+            background: #FFFFFF; text-align: center;
+        }}
+        .login-box h2 {{ color: #000055; margin-bottom: 24px; }}
+        </style>
+        <div class="login-box">
+            <h2>🔒 S&OP Prognose</h2>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    pw = st.text_input("Passwort", type="password", label_visibility="collapsed",
+                       placeholder="Passwort eingeben...")
+    if st.button("Anmelden", use_container_width=False):
+        if pw == PASSWORD:
+            st.session_state["authenticated"] = True
+            st.rerun()
+        else:
+            st.error("Falsches Passwort.")
+    st.stop()
+
 
 # ============================================================
 # Hilfsfunktionen
